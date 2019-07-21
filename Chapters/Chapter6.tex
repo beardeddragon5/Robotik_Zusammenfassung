@@ -1,6 +1,7 @@
+% !TEX root = ../Robotik.tex
 \chapter{Probabilistische Methoden und Kartierungen}
 \section{Problemstellung}
-\paragraph{Sensordaten} 
+\paragraph{Sensordaten}
 Roboter empfängt regelmäßig Sensordaten, jedoch mit Unsicherheit behaftet.
 \paragraph{Steuerdaten}
 Roboter führt regelmäßig Bewegungen mit Steuerdaten $u_k$ durch, aber diese entsprechen nicht exakt den vorgegebenen Steuerdaten.
@@ -8,7 +9,7 @@ Roboter führt regelmäßig Bewegungen mit Steuerdaten $u_k$ durch, aber diese e
 Position schätzt seine globale Position aufgrund der Sensor- und Steuerdaten in seiner Umgebungskarte, jedoch auch mit Unsicherheit behaftet
 \section{Modellierung von Unsicherheit}
 \begin{itemize}
-	\item Viele Aussagen bei mobilen Robotern sind unsicher 
+	\item Viele Aussagen bei mobilen Robotern sind unsicher
 	\item \textbf{Grundlegende Idee}: Modellierung von Unsicherheiten durch Wahrscheinlichkeiten
 	\item Interpretierung der eigentlichen Lokalisierung als Wahrscheinlichkeitsdichte-Problem
 	\item Auch bei weniger präzisen Umgebungsmodellen einsetzbar
@@ -55,7 +56,7 @@ $p (A|B) = p(B|A) * \dfrac{p(A)}{p(B)}$
 	\item $z_t$: letzte Information über den momentanen Umgebungszustand mittels Sensoren (\textbf{Observationsmesswert})
 	\item $u_t$ letzte Kontrolldaten, Zustandsänderung im Zeitintervall ($t-1$; $t$) (\textbf{Aktionsmesswert})
 	\item $x_t$ Zuszand zum Zeitpunkt $t$
-	\item bei $(x_t) = p(x_t |z_1:t, u_1:t)$ ist die \textbf{Wahrscheinlichkeitsverteilung} über den \textbf{Zustand $x_t$ zum Zeitpunkt $t$}, abhängig von allen vergangenen Sensorinformationen $Z_1:t$ und Kontrolldaten $u_1:t$ 
+	\item bei $(x_t) = p(x_t |z_1:t, u_1:t)$ ist die \textbf{Wahrscheinlichkeitsverteilung} über den \textbf{Zustand $x_t$ zum Zeitpunkt $t$}, abhängig von allen vergangenen Sensorinformationen $Z_1:t$ und Kontrolldaten $u_1:t$
 \end{itemize}
 %Funktionsweise Siehe Seite 6-8
 \newpage
@@ -297,24 +298,3 @@ Modell von Variablen und deren Abhängigkeiten als dynamisches Bayes-Netzwerk.
 	\subitem $f$ konstanter Faktor
 	\subitem $M$ Anzahl der Landmarken
 \end{itemize}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,3 +1,4 @@
+% !TEX root = ../Robotik.tex
 \chapter{Industrierobotik}
 \section{Industrieroboter}
 \begin{itemize}
@@ -109,7 +110,7 @@ Das Eingangsglied verläuft parallel zur Drehachse, das Ausgangsglied steht im r
 \end{figure}
 \subsection{Kugelgelenk}
 Besitzt 3 Freiheitsgrade, wobei die Beweglichkeit stark eingeschränkt ist.
-Arbeitsbereich der X- und Y-Achse wird durch die Konstruktion auf unter 
+Arbeitsbereich der X- und Y-Achse wird durch die Konstruktion auf unter
 180 grad limitiert.
 Die Einkerbung an der Vorderseite lässt an dieser stelle einen 90 grad Winkel zu.
 \begin{figure}[H]
@@ -255,7 +256,7 @@ Die Kinematik beschreibt nur wie sich ein Körper bewegt und wird daher auch als
 	\item Robotersteuerung = Hard- und Software zum korrekten Ansteuern des Manipulators
 	\item Zwei Komponenten: Bewegungssteuerung und Gelenkregelung
 	\subitem Steuerung von Effektoren, Berechnung, Steuerung und Überwachung (\textbf{\textit{Bewegungssteuerung}})
-	\subitem Regelung von Position, Geschwindigkeit und Beschleunigung (\textbf{Gelenkregelung}) 
+	\subitem Regelung von Position, Geschwindigkeit und Beschleunigung (\textbf{Gelenkregelung})
 \end{itemize}
 \paragraph{Anforderung an die Regelung}
 \begin{itemize}
@@ -296,7 +297,7 @@ Streuung der Ist-Position bei mehrmaliger Anfahrt aus derselben Richtung; relati
 \begin{figure}[H]
 	\begin{center}
 		\includegraphics[scale=0.6]{resources/PNG/Wiederholungsgenauigkeit.PNG}
-		\caption{Absolut- vs. Wiederholgenauigkeit. A = schlechte AG, B = gute AG, C = schlechte WG, D = gute WG $\Rightarrow$ Kombination aus B und D} 
+		\caption{Absolut- vs. Wiederholgenauigkeit. A = schlechte AG, B = gute AG, C = schlechte WG, D = gute WG $\Rightarrow$ Kombination aus B und D}
 		\label{fig:resources/PNG/wiederholungsgenauigkeit.PNG}
 	\end{center}
 \end{figure}
@@ -506,7 +507,7 @@ können Prozeduren, Funktionen oder Traps sein.
 	\item Zusammengesetzter Datentyp
 	\item Alias
 	\item Signal - Ausnahme Semi-Value
-	\subitem Abfragen Wertbasiert, daher 0,1 
+	\subitem Abfragen Wertbasiert, daher 0,1
 	\subitem Initialisierung und Zuweisung: Set, Reset, PulseDO, SetGO
 \end{itemize}
 \begin{figure}[]
@@ -593,87 +594,3 @@ Mögliche Befehle sind \textbf{TPReadDnum}, \textbf{TPReadFK}, \textbf{TPReadNum
 Um die Anzahl der Teachpunkte möglichst gering zu halten, empfiehlt es sich, wenn möglich, weitere Punkte relativ zu anderen Punkten anzugeben. \\
 $\Rightarrow$ Befehl \textbf{Offs}, mit dem die Positionskomponente eines Punktes einfach modifiziert werden kann.\\
 VAR robtarget p10 := Offs(pHome, X, Y, Z)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,3 +1,4 @@
+% !TEX root = ../Robotik.tex
 \chapter{Fortbewegung, Lokalisierungsalgorithmen}
 \section{Relative Lokalisierung}
 \subsection{Dead Reckoning}
@@ -76,7 +77,7 @@ Odometrie ist die Wissenschaft der Positionsbestimmung eines Fahrzeugs durch die
 		\caption{}
 		\label{fig:PNG/2DScan.PNG}
 	\end{center}
-\end{figure}	
+\end{figure}
 \begin{itemize}
 	\item \textbf{Annahme:} die korrespondierenden Punkte sind bekannt $\Rightarrow$ eine \textbf{Transformation} kann berechnet werden, die diese Mengen aufeinander abbildet
 	\item \textbf{Beispiel} zwei Scans mit einer Poseänderung des zweiten um $(4cm, 1cm, 10 \deg)^T$ beide Scans sehen dieselben Raumpunkte p1 und p2
@@ -101,5 +102,3 @@ Hierbei ist \\
 $t_{x}=c_{x}-\left(c_{x}^{\prime} \cos \theta-c_{z}^{\prime} \sin \theta\right)$ und \\
 $t_{z}=c_{z}-\left(c_{x}^{\prime} \sin \theta+c_{z}^{\prime} \cos \theta\right)$
 %TODO Look at BSP 26 / 28
-
-

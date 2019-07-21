@@ -1,3 +1,4 @@
+% !TEX root = ../Robotik.tex
 \chapter{Locomotion}
 \section{Fortbewegungsarten}
 \begin{itemize}
@@ -41,7 +42,7 @@
 \end{itemize}
 \subsection{Laufverhalten}
 \begin{itemize}
-	\item Das Geh- und Laufverhalten kann in \textbf{statisch und dynamisch stabile Gangarten} eingeteilt werden 
+	\item Das Geh- und Laufverhalten kann in \textbf{statisch und dynamisch stabile Gangarten} eingeteilt werden
 	\item Funktioniert nur für sehr langsame Bewegungen
 \end{itemize}
 \paragraph{Definition: Statisches stabiles Gehen}
@@ -54,7 +55,7 @@ Dynamisches Gehen arbeitet mit Körperschwingungen: der Körperschwerpunkt befin
 	\item Statische Stabilitätsbedingung: der Masseschwerpunkt (\textit{Center of Gravity}) ist immer über dem Stützpolygon
 	\subitem \textbf{Stützpolygon} ist ein minimales Polygon, das alle Kontaktstellen des Roboters mit dem Boden enthält.
 	\subitem möglich für alle Beinanzahlen >= zwei
-	\subitem nur langsame Bewegungen möglich	
+	\subitem nur langsame Bewegungen möglich
 \end{itemize}
 \paragraph{Dreifußgang}
 \begin{itemize}
@@ -89,7 +90,7 @@ Dynamisches Gehen arbeitet mit Körperschwingungen: der Körperschwerpunkt befin
 	\item Regelung von Gelenkwinkel und -Geschwindigkeiten
 	\item Trajektorienplanung und -interpolation
 	\item Explizite regelbasierte Laufplanung
-	\item \textbf{Vorteil:} Nutzung gut bekannter mechatronischer Prinzipien 	
+	\item \textbf{Vorteil:} Nutzung gut bekannter mechatronischer Prinzipien
 	\item Eigenschaften wie Stabilität sind gut bekannt
 	\item Lernen einfacher Steuerungszusammenhänge im Gegensatz zu Neuronalen Netzen nicht notwendig
 \end{itemize}
@@ -152,24 +153,3 @@ Eine Bewegung heißt \textbf{holonomisch}, wenn das Objekt seine \textbf{Orienti
 	\item Raddrehmomente $\alpha, \beta, \gamma$ proportional zur Winkelgeschwindigkeit des jeweiligen Rades
 	\item \textbf{Bewegungsvektor} $\vec{V}=\alpha \cdot \vec{A}+\beta \cdot \vec{B}+\gamma \cdot \vec{C}$
 \end{itemize}
-
-
-
-
-
-
-
-
-
-
-
-
-	
-
-
-
-
-
-
-
-

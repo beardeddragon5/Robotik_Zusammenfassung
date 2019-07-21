@@ -1,3 +1,4 @@
+% !TEX root = ../Robotik.tex
 \chapter{Navigation}
 \section{Bekanntes vs. unbekanntes Terrain}
 Man unterscheidet zwischen Algorithmen für:
@@ -20,13 +21,13 @@ Man unterscheidet zwischen Algorithmen für:
 \end{itemize}
 \paragraph{Regelung des Abstands d}
 \begin{lstlisting}
-IF (Distance to Wall > d) 
+IF (Distance to Wall > d)
 	THEN turn to wall
 
-IF (Distance to Wall < d) 
+IF (Distance to Wall < d)
 	THEN turn away from wall
 
-IF (Distance to Wall == d) 
+IF (Distance to Wall == d)
 	THEN Drive straight ahead
 \end{lstlisting}
 \newpage
