@@ -117,7 +117,7 @@ die Beobachtung seiner Räder.
 		$\Rightarrow$ eine \textbf{Transformation} kann berechnet werden, die
 		diese Mengen aufeinander abbildet
 	\item \textbf{Beispiel} zwei Scans mit einer Poseänderung des zweiten um
-		$(4cm, 1cm, 10 \deg)^T$ beide Scans sehen dieselben Raumpunkte $p_1$ und 
+		$(4cm, 1cm, 10 \deg)^T$ beide Scans sehen dieselben Raumpunkte $p_1$ und
 		$p_2$
 	\item Obige Annahme i.d.r. nicht erfüllt $\Rightarrow$ \textbf{nicht
 		eindeutig zu bestimmen, welche Punkte zwischen den beiden Scans
@@ -170,4 +170,14 @@ mit den Parametern:
 		(p'_{z,i} - c'_z)
 \end{align*}
 
-%TODO Look at BSP 26 / 28
+\subsection{Weitere Lokalisierungsalgorithmen zur globalen Lokalisierung}
+\begin{itemize}
+	\item Wird beim 2D-Scanmatching nicht mit einem vorhergehenden Scan
+		verglichen, sondern mit einer Karte, kann eine globale Lokalisierung
+		realisiert werden
+	\item Lokalisierung an Linien: Vergleich von Messung und Linienkarte
+	\item Lokalisierung an visuellen SIFT (Scale-invariant feature transform)
+		Merkmalen; ein Algorithmus zur Detektierung lokaler Merkmale, die
+		größtenteils invariantgegenüber Rotation und Skalierung sind
+	\item Verschiedene Algorithmen zur probabilistischen Lokalisierung in Karten
+\end{itemize}
