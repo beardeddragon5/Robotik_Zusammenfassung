@@ -369,161 +369,189 @@ return failure
 \end{lstlisting}
 
 \subsection{Wegsuche mit dem Sichtgraph-Algorithmus}
-\paragraph{Visibility Map}
+\begin{description}
+	\item[Visibility Map] Die Eckpunkte der Polygone (Hindernisse) werden zu
+		Knoten, die eine Kante teilen wenn sie das Polygon nicht schneiden.
+	\item[Visibility Graph] Einfachste Visibility Map, bei der Start- und
+		Zielknoten mitinbegriffen sind. \textbf{Hinderniskanten sind Teil des
+		Sichtgraphen}.
+\end{description}
+
+\subsubsection{Sichtgraphalgorithmus}
+\begin{enumerate}
+	\item Erzeuge Visiblity Graph $\Rightarrow$ Kanten = Wegstücke \& Knoten =
+		Orte
+	\item Kanten werden mit Entfernung gewichtet.
+	\item Suche: Suche die Geraden, die den kürzesten Weg zum Ziel verbinden.
+\end{enumerate}
+Nachteile:
 \begin{itemize}
-	\item enthält Eckpunkte von Polygonen, den Ecken der Hindernisse
-	\item zwei Knoten der Visibility Map teilen eine Kante, wenn die beiden Eckpunkte voneinander in Sichtweite sind
+	\item Weg tangiert Hindernisse
+	\item Graph enthält viele nutzlose Kanten
 \end{itemize}
-\paragraph{Visibility Graph}
-\begin{itemize}
-	\item ist die einfachste Visibility Map
-	\item Knoten umfassen: \textbf{Startknoten}, \textbf{Zielknoten} und alle Eckpunkte der Hindernisse
-	\item die Kanten sind Liniensegmente, die zwei Knoten in Sichtweite verbinden
-	\item Hinderniskanten sind Teil des Sichtgraphen
-\end{itemize}
-\paragraph{Sichtgraphenalgorithmus}
-\begin{itemize}
-	\item verbinde \textbf{Start-}, \textbf{Zielpunkte} und die \textbf{Ecken} der Hindernisse durch Geraden, die nicht durch Hindernisse laufen dürfen
-	\item Ergebnis ist ein Graph, dessen Knoten Orte sind und dessen Kanten mögliche Wegstücke zwischen diesen Knoten darstellen
-	\item Kanten sind gewichtet mit der Entfernung zwischen den Knoten
-	\item gesucht: Menge der möglichen Geraden, die den Startpunkt auf dem kürzesten Weg mit dem Zielpunkt verbindet
-	\item \textbf{Nachteil}: führt unmittelbar an Hindernissen entlang, enthält noch viele nutzlose Kanten
-\end{itemize}
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[scale=0.5]{Resources/PNG/SichtGraphAlgorithmus.PNG}
-		\caption{}
-		\label{fig:PNG/SichtGraphAlgorithmus.PNG}
-	\end{center}
-\end{figure}
-\paragraph{Reduzierter Visibility Graph}
-Definition von \textbf{unterstützenden} und \textbf{trennenden} Kanten:
-\begin{itemize}
-	\item \textbf{unterstützende Kante:} Tangente zu zwei Hindernissen, so dass die Hindernisse auf derselben Seite der Linie liegen
-	\item \textbf{trennende Kante:} Tangente zu zwei Hindernissen, so dass die Hindernisse auf gegenüberliegenden Seiten der Tangente liegen
-\end{itemize}
+
+\pagebreak
+\subsubsection{Reduzierter Visibility Graph}
+{
+\begin{wrapfigure}{r}{0.4\textwidth}
+	\includegraphics[width=0.4\textwidth]{Resources/PNG/SichtGraphReduziert}
+\end{wrapfigure}
 Der reduzierte Sichtgraph besteht nur aus unterstützenden und trennenden Kanten.
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[scale=0.4]{Resources/PNG/SichtGraphReduziert}
-		\caption{}
-		\label{fig:PNG/SichtGraphReduziert.PNG}
-	\end{center}
-\end{figure}
-\paragraph{Konstruktion des Graphen}
-\begin{itemize}
-	\item Alle Liniensegmente $vv_i$ mit $v != v_i$ müssen getestet werden, ob sie keinen Schnittpunkt mit einer Kante eines Hindernisses haben
-	\item \textbf{Nachteil}: Komplexität O($n^3$)
-	\item \textbf{Effizienter}: Plane Sweep Algorithmus mit Komplexität O($n^2 log n$)
-\end{itemize}
-\paragraph{Algorithmus}
-\begin{itemize}
-	\item \textbf{Input}: A  set of vertices ${v_i}$ (whose edges do not intersect) and a vertex $v$
-	\item \textbf{Output}: A subset of vertices from ${v_i}$ that are within line of sight of $v$
-\end{itemize}
-\begin{itemize}
-	\item For each vertex $v_i$, calculate $\alpha$, the angle from the horizontal axis to the line segment $\overline{vv_i}$
-	\item Create the vertex list $\epsilon$, containing the $\alpha_i$'s sorted in increasing order.
-	\item Create the active list $\mathcal{S}$, containing the sorted list of edges that intersect the horizontal half-line emanating from v.
-	\item \textbf{For all} $\alpha_i$ \textbf{do}
-	\subitem if $v_i$ is visible to $v$ \textbf{then}
-	\subsubitem Add the edge ($v, v_i$) to the visibility graph.
-	\subitem \textbf{end if}
-	\subitem \textbf{if} $v_i$ is the beginning of an edge, E, not in $\mathcal{S}$ \textbf{then}
-	\subsubitem Insert the \textit{E} into $\mathcal{S}$
-	\subitem \textbf{end if}
-	\subitem \textbf{if} $v_i$ is the end of an edge in $\mathcal{S}$ \textbf{then}
-	\subsubitem Delete the edge from $\mathcal{S}$
-	\subitem \textbf{end if}
-	\item \textbf{end for}
-\end{itemize}
+\begin{description}
+	\item[unterstützende Kanten:] Tangente zu zwei Hindernissen, so dass die
+		Hindernisse auf derselben Seite der Linie liegen
+	\item[trennende Kanten:] Tangente zu zwei Hindernissen so, dass die Hindernisse
+		auf gegenüberliegenden Seiten der Tangente liegen.
+\end{description}
+
+Konstruktion:
+Alle Liniensegmente $vv_i$ mit $v \neq v_i$ dürfen keinen Schnittpunkt mit
+einer Hinderniskante haben.
+
+$\Rightarrow$ \textbf{Nachteil:} Komplexität $O(n^3)$
+
+$\Rightarrow$ \textbf{Effizienter:} Plane Sweep Algorithmus $O(n^2 log n)$
+
+}
+{
+\begin{wrapfigure}{r}{0.4\textwidth}
+	\includegraphics[width=0.4\textwidth]{Resources/PNG/sweepLineAlgorithmus}
+\end{wrapfigure}
+\begin{lstlisting}[language=c, caption={Sweep Line Algorithmus}]
+/**
+ * Input: Set of vertices (whose edges do not
+ *         intersect) and a vertex v
+ * Output: A subset of vertices from the
+ *         input set that are within the line
+ *         of sight of v
+ */
+Angles = vertices.map(vi ->
+		angle between segment vvi horizontal line
+		from v
+)
+
+Angles.sort(ASC)
+
+List S // containing edges that intersect the
+        // horizontal line from v
+
+for (angle : Angles) {
+	if (vi is visible to v)  {
+		add edge (v, vi) to the visibility graph
+	}
+	if (vi ist the beginning of an edge, E, not in S) {
+		insert E into S
+	}
+	if (vi is the end of and edge in S) {
+		delete the edge form S
+	}
+}
+\end{lstlisting}
+
+}
+
+\pagebreak
 \subsection{Voronoi-Diagramme}
-\paragraph{Allgemeines Voroni-Diagramm}
-\begin{itemize}
-	\item Eine Fläche wird willkürlich mit Punkten besetzt $\Rightarrow$ erzeugt Polygonflächen
-	\item Alle punkte einer Polygonfläche liegen am nähesten zu dem Punkt der im Zentrum dieses Polygons liegt
-	\item Jede Zelle hat genau ein Zentrum
-	\item Die Punkte des Gebiets, die zu mehereren Zentren den gleichen Abstand haben, bilden die Grenze zwischen den einzelnen Zellen
-	\item Als abstandsfunktion wird der Euklidische Abstand verwendet:
-	\subitem $dist(p,q) ) = \sqrt{(p_x-q_x)^2 + (p_y-q_y)^2}$
-	\item Das Voronoi-Diagramm ist die Menge solcher Grenzlinien
-\end{itemize}
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[scale=0.4]{Resources/PNG/Polygon.PNG}
-		\caption{}
-		\label{fig:PNG/Polygon.PNG}
-	\end{center}
-\end{figure}
-Immer dann gut einsetzbar, wenn ungenaue Sensoren zur Verfügung stehen oder die Umwelt ungenau geometrisch modelliert wurde oder sich dynamisch ändert.
-\paragraph{Generalisierte Voronoi-Diagramme}
-\begin{itemize}
-	\item Bei der Navigation von Robotern wird eine verallgemeinerte Version des Voronoi Diagramms verwendet, das sogenannte \textbf{generalisierte Voronoi Diagramm}(GVD)
-	\item \textbf{Generalisierung} betrifft die \textbf{Form der Zentren} und die Art der \textbf{Abstandsfunktion}
-	\item \textbf{Zentren} können aus \textbf{komplexeren Formen} wie Linien, Kurven oder Polygonen \textbf{statt Punkten} bestehen
-	\item Objekten der Umgebung werden als \textbf{Voronoi-Zentren} behandelt
-	\item Die Menge aller \textbf{Voronoi-Kanten}, das GVD, stellt mögliche \textbf{kollisionsfreie Wegstücke} dar
-	\item Falls sich der Roboter entlang einer \textbf{Voronoi-Kante} bewegt, kann er nicht mit Hindernissen kollidieren
-	\item Beliebtes Verfahren zur Repräsentation des Konfigurationsraumes und Erzeugung eines Graphen.
-	\item Punkte an denen sich \textbf{Voronoi-Kanten} schneiden, werden zu \textbf{Voronoi-Knoten}
-\end{itemize}
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[scale=0.6]{Resources/PNG/Voronoi.PNG}
-		\caption{}
-		\label{fig:PNG/Voronoi.PNG}
-	\end{center}
-\end{figure}
-Start- und Zielpunkt des gesuchten Weges liegen normalerweise nicht auf dem Diagramm.
-Diese beiden Punkte werden mit der nächstliegenden Kante verbunden.
-Die Berechnung des optimalen Weges auf dem Voronoi-Diagram kann mit üblichen Graphenalgorithmen vorgenommen werden.
+{
+\begin{wrapfigure}{r}{0.4\textwidth}
+	\includegraphics[width=0.4\textwidth]{Resources/PNG/Polygon.PNG}
+\end{wrapfigure}
+
+Eine Fläche wird willkürlich mit Punkten besetzt. Diese Punkte bilden die
+Zentren der Polygonflächen. Jeder Punkt der Fläche gehört zu dem Zentrum das
+ihm am nächsten liegt $\Rightarrow$ Gehört zur Polygonfläche dieses Zentrums.
+Wenn ein Punkt zu min. 2 Zentren den selben Abstand hat bildet er die Grenze
+zwischen den Polygonflächen dieser Zentren. Der Abstand wird mit der
+Euklidischen Abstandsfunktion bestimmt:
+$$
+	dist(p,q) = \sqrt{(p_x - q_x)^2 + (p_y - q_y)^2}
+$$
+Die Menge der Grenzlinien nennt man Voronoi-Diagramm
+
+}
+
+Immer dann gut einsetzbar, wenn ungenaue Sensoren zur Verfügung stehen oder die
+Umwelt ungenau geometrisch modelliert wurde oder sich dynamisch ändert.
+
+\subsubsection{Generalisierte Voronoi-Diagramme}
+{
+\begin{wrapfigure}{r}{0.4\textwidth}
+	\vspace{-1cm}
+	\centering
+	\includegraphics[width=0.3\textwidth]{Resources/PNG/Voronoi.PNG}
+\end{wrapfigure}
+Bei dem sogenannten generalisierten Voronoi Diagramm (GVD) ist die \textbf{
+Form der Zentren} und die Art der \textbf{Abstandsfunktion} nicht festgelegt.
+Dadurch können Zentren komplexere Formen statt nur Punkte sein. Die damit
+entstehenden Voronoi-Kanten bilden mögliche kollisionsfreie Wegstücke.
+
+In der Robotik werden Konfigurationsräume gerne damit repräsentiert und die
+Hindernisse werden zu Zentren des GVD gemacht. Bei der Wegfindung befinden sich
+Start- und Zeilpunkt nicht auf dem Diagramm, diese werden mit der
+nächstgelegenen Kante verbunden.
+
+}
+
 \subsection{Navigation in einer Rasterkarte}
+{
+\begin{wrapfigure}{r}{0.4\textwidth}
+	\includegraphics[width=0.4\textwidth]{Resources/PNG/RasterKarte.png}
+\end{wrapfigure}
+In einer Rasterkarte gibt es nur die Bewegunsrichtungen (N, O, S, W). Sie
+besteht aus einem binären Raster. Es können zwei ähnliche Algorithmen zur
+Navigation verwendet werden:
 \begin{itemize}
-	\item Die Karte ist durch ein binäres Raster mit freiem Platz und Hindernissen gegeben.
-	\item Das Raster wird ausgehend vom Startpunkt: \textbf{geflutet} $\Rightarrow$ Füllt den gesamten Hindernisfreien Raum
-	\item In jeder Iteration haben alle Pixel auf einer Wellenfront dieselbe Pfadlänge im Raster bezogen auf den Zielpunkt
-	\item Backtracking vom Zielpunkt zurück zum Startpunkt und erstellt dabei eine Liste der passierten Rasterpunkte
-	\item Gewählt kann jeder Punkt im Raster werden, dessen Wert eins geringer ist, als der aktuell betrachtete
-	\item Trifft dies auf mehrere Punkte zu, wird willkürlich einer gewählt
+	\item Fluten vom Startpunkt aus
+	\item Fluten vom Zielpunkt aus (Wave Front Planer)
 \end{itemize}
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[scale=0.6]{Resources/PNG/RasterKarte.png}
-		\caption{}
-		\label{fig:PNG/RasterKarte.png}
-	\end{center}
-\end{figure}
-\paragraph{Fluten der Karte}
+Bei beiden Algorithmen werden in jeder Iteration die Werte des Nachbarn des
+Randes der Welle, die kein Hindernis darstellen, auf den Wellenwert + 1 gesetzt.
+
+Daraufhin kann der gewünschte Weg durch Absteigen (Backtracking) ermittelt
+werden. Die beiden Algorthmen unterschieden sich in der Startbelegung.
+
+}
+
+\begin{table}
+\centering
+\begin{tabular}{r|l|l}
+							  & \textbf{Fluten vom Startpunkt} & \textbf{Wave Front Planer} \\
+\hline
+Start der Welle & Startpunkt                     & Zielpunkt                  \\
+Hindernis Wert  & -1                             & 1                          \\
+Frei Startwert  & 0                              & 0                          \\
+Wellen Startwert& 1                              & 2                          \\
+Anmerkung       &                                & Einfache Potentialfeldmethode
+\end{tabular}
+\end{table}
+
+\paragraph{Nachteile}
 \begin{itemize}
-	\item Ein \textbf{Rasterpunkt} besitzt vier Nachbarpunkte: \enquote{N}, \enquote{O}, \enquote{S} , \enquote{W}
-	\item Ein Rasterpunkt z ist mit 0 für freien Raum belegt und -1 für ein Hindernis
-	\item Wenn ein Rasterpunkt eine Nummer erhalten hat, behält er diese Nummer
-	\item Der Algorithmus benutzt aus Performancegründen zwei Stacks $S_0$ und $S_1$, die abwechselnd gefüllt und geleert werden. Die Stacks sind anfangs leer
+	\item Weg fürht ev. nah am Hindernis vorbei
+	\item Der gesamte Raum muss durchsucht werden
 \end{itemize}
+
+\paragraph{Vorteil} auch im 3D Raum anwendbar mit 6 Nachbarfeldern.
+
 \begin{figure}[H]
 	\begin{center}
 		\includegraphics[]{Resources/PNG/Flooding.PNG}
-		\caption{}
+		\caption{Flooding Algorithmus}
 		\label{fig:PNG/Flooding.PNG}
 	\end{center}
 \end{figure}
-\paragraph{Alternativer Wave Front Planer}
-Siehe Ursprungsfolie Kapitel 5, Seite 29/30
-\subsection{Potentialfeld methode}
-\paragraph{Grundidee}
-\begin{itemize}
-	\item Vorbild: \textbf{Elektrisches Feld}
-	\item Start- und Zielpositionen, die Positionen aller Hindernisse müssen bekannt sein.
-	\item Der \textbf{Zielpunkt und Freiräume} erhalten ein \textbf{anziehendes Potential}
-	\item Der \textbf{Startpunkt, die Hindernisse} und Wände erhalten ein \textbf{abstoßendes Potential}
-	\item Es wird eine Karte generiert mit virtuell anziehenden und abstoßenden Kräften
-	\item Kräfte nehmen linear mit dem Abstand zu den Objekten ab.
-	\item \textbf{Ein Objekt bewegt sich nach der Methode des steilsten Abstiegs im Potentialfeld auf das Ziel zu.}
-\end{itemize}
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[scale=0.5]{Resources/PNG/PotentialFeld.PNG}
-		\caption{}
-		\label{fig:PNG/PotentialFeld.PNG}
-	\end{center}
-\end{figure}
+
+\subsection{Potentialfeld Methode}
+Vorbild ist das elektrische Feld. Dabei müssen Start- und Zielposition und die
+Positionen aller Hindernisse bekannt sein. Der Zielpunkt und Freiraum erhalten
+ein anziehendes Potential. Der Startpunkt, Hindernisse und Wände ein abstoßendes
+Potential. Eine Karte mit den verschiedenen anziehenden und abstoßenden Kräften
+wird erstellt, diese nehmen linear mit dem Abstand zum Objekt ab.
+
+Der Roboter bewegt sich nach der Methode des steilsten Abstiegs im Potentialfeld
+auf das Ziel zu.
+
+\textbf{Problem} Der steile Abstieg ist ein greedy Algorthmus und kann dazu
+führen, dass ein lokales Minima erreicht wird und somit in einer Sackgasse
+landet. $\Rightarrow$ Potentialfunktion wählen, dass es nur ein Minima im Ziel
+gibt.
