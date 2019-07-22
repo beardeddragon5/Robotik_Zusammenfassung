@@ -1,27 +1,37 @@
 % !TEX root = ../Robotik.tex
 \chapter{Probabilistische Methoden und Kartierungen}
 \section{Problemstellung}
-\paragraph{Sensordaten}
-Roboter empfängt regelmäßig Sensordaten, jedoch mit Unsicherheit behaftet.
-\paragraph{Steuerdaten}
-Roboter führt regelmäßig Bewegungen mit Steuerdaten $u_k$ durch, aber diese entsprechen nicht exakt den vorgegebenen Steuerdaten.
-\paragraph{Position und Umgebungsmodell}
-Position schätzt seine globale Position aufgrund der Sensor- und Steuerdaten in seiner Umgebungskarte, jedoch auch mit Unsicherheit behaftet
+
+\begin{description}
+	\item[Sensordaten] Roboter empfängt regelmäßig Sensordaten, jedoch mit
+		Unsicherheit behaftet.
+	\item[Steuerdaten] Roboter führt regelmäßig Bewegungen mit Steuerdaten $u_k$
+		durch, aber diese entsprechen nicht exakt den vorgegebenen Steuerdaten.
+	\item[Position und Umgebungsmodell] Position schätzt seine globale Position
+		aufgrund der Sensor- und Steuerdaten in seiner Umgebungskarte, jedoch auch
+		mit Unsicherheit behaftet
+\end{description}
+
 \section{Modellierung von Unsicherheit}
-\begin{itemize}
-	\item Viele Aussagen bei mobilen Robotern sind unsicher
-	\item \textbf{Grundlegende Idee}: Modellierung von Unsicherheiten durch Wahrscheinlichkeiten
-	\item Interpretierung der eigentlichen Lokalisierung als Wahrscheinlichkeitsdichte-Problem
-	\item Auch bei weniger präzisen Umgebungsmodellen einsetzbar
-	\item Sie erlauben es, den Zustand eines \textbf{dynamischen Systems} probabilistisch zu schätzen
-\end{itemize}
+Die Unsicherheiten werden mit Wahrscheinlichkeiten modelliert. So kann der
+Zustand von dynamsichen Systemen probabilistisch geschätzt werden.
+
+\paragraph{Beispiel: Localization beim Roboter}
+Dabei wird die Position ermittelt an der sich der Roboter am
+wahrscheinlichsten befindet. Die Lokalisierung wird somit zu einem
+Wahrscheinlichkeitsdichte Problem bei dem alle vorangegangenen Sensorwerte
+berücksichtigt werden.
+
+\section{Satz von Bayes}
+\begin{align*}
+	p(A) &= \text{Wahrscheinlichkeit das die Aussage } A \text{ zutrifft} \\
+	P(A|B) &= \text{Wahrscheinlichkeit, dass } p(A) \text{ unter der
+									Voraussetzung das }B\text{ gilt} \\
+  P(A|B) &= p(B|A) * \frac{p(A)}{p(B)}
+\end{align*}
+
 \section{Umgebungsmodellierung mit Occupancy Grids}
-\subsection{Satz von Bayes}
-$p (A|B) = p(B|A) * \dfrac{p(A)}{p(B)}$
-\begin{itemize}
-	\item $p(A)$ ist Wahrscheinlichkeit das die Aussage A zutrifft.
-	\item $p(A|B)$ bezeichnet die Wahrscheinlichkeit $p(A)$ unter Voraussetzung dass B gilt
-\end{itemize}
+
 \subsection{Evidence Grids}
 \begin{itemize}
 	\item \textbf{Problem}: reale Sensordaten erhalten häufig Rauschen; Rauschen bei Sensordaten führt zu Abweichungen des Idealwerts $\Rightarrow$ schwerwiegende Fehler
