@@ -227,17 +227,25 @@ Dies beinhaltet drei Unteraufgaben:
 \end{description}
 
 \subsection{Konfigurationsraum}
+Summe aller Konfigurations-Hindernisse bildet den \textbf{Konfigurationsraum}.
+Dieser ist eine Datenstruktur, die es dem Roboter ermöglicht, die \textbf{
+Position und Orientierung von Hindernissen} in der Umgebung zu definieren. Der
+Konfiguration dient somit als \textbf{Basis der Webplanung}.
+
 \paragraph{Herleitung}
 \begin{itemize}
 	\item Abmesungen, Form, Bewegungsmöglichkeiten des Roboters werden für die
 		Erstellung des Konfigurationsraums benötigt
 	\item Konfiguration $q$ eines Roboters beschreibt Lage und Ausrichtung im
 		Bezugssystem des Umgebungsmodells
-	\item Im zweidimensionalen Raum kann Position in $x,y$-Ebene und Orientierung ausgedrückt werden
-	\item Konstruktionsbedingt sind einige Konfigurationen für den Roboter in seiner Umgebung nicht zulässig
+	\item Im zweidimensionalen Raum kann Position in $x,y$-Ebene und Orientierung
+		ausgedrückt werden
+	\item Konstruktionsbedingt sind einige Konfigurationen für den Roboter in
+		seiner Umgebung nicht zulässig
 	\item Problem; einfachere Darstellung:
 	\subitem Roboter als Punkt angenommen
-	\subitem Abmessungen des Roboters + Objektabmessungen $\Rightarrow$ Konfigurations-Hindernisse
+	\subitem Abmessungen des Roboters + Objektabmessungen $\Rightarrow$
+		Konfigurations-Hindernisse
 \end{itemize}
 \begin{figure}[H]
 	\begin{center}
@@ -246,72 +254,120 @@ Dies beinhaltet drei Unteraufgaben:
 		\label{fig:PNG/KonfigurationsHindernisse.PNG}
 	\end{center}
 \end{figure}
-\paragraph{Definition}
-\begin{itemize}
-	\item Summe aller Konfigurations-Hindernisse bildet den \textbf{Konfigurationsraum}
-	\item Konfigurationsraum ist Datenstruktur, die es dem Roboter ermöglicht, die Position und Orientierung von Hindernissen in der Umgebung zu definieren
-	\item Der Konfigurationsraum dient als Basis der Wegplanung
-\end{itemize}
+
 \paragraph{Repräsentationen}
 \begin{itemize}
 	\item Graphen mit Knoten
 	\item Reguläre Gitter
-	\item Quad-Bäume oder Octal-Bäume oder als Voronoidiagramme
+	\item Quad-Bäume oder Octal-Bäume
+	\item Voronoidiagramme
 \end{itemize}
+
 \section{Algorithmen und Methoden}
-Für die folgenden Algorithmen und Methoden wird ausgeganen, dass Hindernisse bekannt sind und weder Position noch Form ändern
-\paragraph{Zellzerlegungen} das Umgebungsmodell wird in sich nicht überlappende Zellen unterteilt, die als besetzt oder frei markiert sind
-\paragraph{Roadmaps}
-\begin{itemize}
-	\item Das entstehende Netzwerk muss \textbf{topologisch} alle zwischen den Hindernissen befahrbare Wege umfassen.
-	\item Planer kann dann kollisionsfreien Pfad von Start- zu Zielpunkt erstellen
-\end{itemize}
-Auf dieses Netzwerk können Standardmethoden der Graphentheorie, wie sie auch in der Autonavigation Verwendung finden, andwendet werden:
+Für die folgenden Algorithmen und Methoden wird ausgeganen, dass Hindernisse
+bekannt sind und weder Position noch Form ändern.
+
+\paragraph{Zellzerlegungen} Das Umgebungsmodell wird in sich nicht überlappende
+Zellen unterteilt, die als besetzt oder frei markiert sind
+
+\paragraph{Straßenkartenmethoden oder Roadmaps}
+Eine Roadmap ist ein Graph mit Knoten und Kanten, bei dem alle befahrbaren
+Wege hinterlegt sind. Daraus kann ein kollisionsfreier Pfad vom Start- zum
+Zielpunkt erstellt werden.
+
+Auf dieses Netzwerk können Standardmethoden der Graphentheorie, wie sie auch in
+der Autonavigation Verwendung finden, andwendet werden:
 \begin{itemize}
 	\item kürzeste Wegsuche mit A*, Dijkstra
-	\item Wegsuche mit Umgehung von Hindernissen mit dem \textbf{Sichtbarkeitsgraph}
-	\item Wegsuche mittels eines \textbf{Voronoigraphen}, \textbf{Voronoidiagramms}
+	\item Wegsuche mit Umgehung von Hindernissen mit dem
+		\textbf{Sichtbarkeitsgraph}
+	\item Wegsuche mittels eines \textbf{Voronoigraphen},
+		\textbf{Voronoidiagramms}
 \end{itemize}
-\paragraph{Potentialfeldmethoden} beinhalten die physikalische Simulation des Roboters als Partikel in einem Feld.
-\newpage
-\subsection{Dijkstra}
-%\paragraph{Datenstrukturen}
-%\begin{itemize}
-%	\item \textbf{PriorityQueue} $Open$
-%	\item \textbf{Aktueller Knoten} $n$
-%	\item \textbf{Nachfolgerknoten} $n'$
-%	\item \textbf{Vorgänger} $predecessor$
-%	\item \textbf{Startknoten} $s$
-%	\item \textbf{Kosten} $cost$
-%\end{itemize}
-\paragraph{Funktionsweise}
-\begin{enumerate}
-	\item Alle Knoten werden als \textbf{unbesucht} markiert $\Rightarrow$ kreiert ein set namens \textbf{unbesuchtes Set}
-	\item Allen Knoten wird ein \textit{temporärer Distanzwert} zugeordnet.
-	\subitem Ursprungsknoten := 0
-	\subitem Alle anderen Knoten := $\infty$
-	\item Setzen des Ursprungsknoten als \textit{current} Knoten
-	\item Für den \textit{current} Knoten alle \textit{unbesuchten} Nachbarn betrachten und deren \textit{temporären Distanzwert berechnen}.
-	Vergleichen des \textit{temporären Distanzwert} mit dem \textit{jetzigen Distanzwert} innerhalb des Nachbarknotens.
-	Falls der temporäre Distanzwert kleiner ist als der jetzige Distanzwert innerhalb der nachbarn wird der temporäre Distanzwert eingetragen.
-	\item Sobald alle Nachbarn überprüft wurden und alle werte eingetragen sind, wird der betrachtete Knoten auf \textbf{besucht} gesetzt. Somit wird er aus dem angelegten Set entfernt und wird nicht mehr überprüft.
-	\item Sobald der Zielknoten als besucht markiert ist dann terminiert der Algorithmus, \textbf{else} wird der Knoten mit der niedrigsten temporären als neuer \textbf{current} Knoten gesetzt und schritt 4 wird wiederholt.
-\end{enumerate}
 
-%TODO Algorithmus
+\paragraph{Potentialfeldmethoden} beinhalten die physikalische Simulation des
+Roboters als Partikel in einem Feld.
+
+\subsection{Dijkstra}
+\begin{lstlisting}[language=c++]
+/**
+ * PriorityQueue Open
+ */
+struct Knoten {
+	int cost
+	Knoten* predecessor
+}
+Knoten start = {0, null};
+push start on Open
+
+while (Open is not empty) {
+	Knoten n = pop lowest cost from Open
+	if (ist n Ziel?) {
+		konstruiere weg
+		return sucess
+	}
+	for (Knoten nx : nachfolger von n) {
+		newcost = n.cost + wegkosten von n nach nx
+		if (n ist in Open && nx.cost <= newcost) {
+			continue;
+		}
+		nx.predecessor = n
+		nx.cost = newcost
+		if (nx is not in Open) {
+			push nx in Open
+		}
+	}
+}
+return failure
+\end{lstlisting}
+
 \subsection{A*}
-%\paragraph{Datenstrukturen}
-%\begin{itemize}
-%	\item \textbf{PriorityQueue} $Open$
-%	\item \textbf{List} $Closed$
-%	\item \textbf{Aktueller Knotne} $n$
-%	\item \textbf{Nachfolgerknoten} $n'$
-%	\item \textbf{Vorgänge} $predecessor$
-%	\item \textbf{Startknoten} $s$
-%	\item \textbf{Kosten} $g = bekannte Kosten$, $h = Schätzkosten$, $f = Gesamtkosten$
-%\end{itemize}
-\paragraph{Funktionsweise}
-%TODO Algorithmus
+\begin{lstlisting}[language=c++]
+/**
+ * PriorityQueue Open
+ * List Closed
+ */
+struct Knoten {
+	int total 					// total cost
+	int est							// estimated cost
+	int known 					// known cost
+	Knoten* predecessor
+}
+Knoten start;
+start.total = 0;
+start.est = GoalDistEstimate(start);
+start.known = start.total + start.est;
+start.predecessor = null;
+
+push start on Open
+
+while (Open is not empty) {
+	Knoten n = pop lowest total cost from Open
+	if (ist n Ziel?) {
+		konstruiere weg
+		return sucess
+	}
+	for (Knoten nx : nachfolger von n) {
+		newcost = n.known + wegkosten von n nach nx
+		if ((n ist in Open || n ist in Closed) && nx.known <= newcost) {
+			continue;
+		}
+		nx.predecessor = n
+		nx.known = newcost
+		nx.est = GoalDistEstimate(nx)
+		nx.total = nx.known + nx.est
+		if (nx is in Closed) {
+			remove nx from Closed
+		}
+		if (nx is not in Open) {
+			push nx in Open
+		}
+	}
+	push n onto Closed
+}
+return failure
+\end{lstlisting}
+
 \subsection{Wegsuche mit dem Sichtgraph-Algorithmus}
 \paragraph{Visibility Map}
 \begin{itemize}
