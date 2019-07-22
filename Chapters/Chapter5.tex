@@ -3,63 +3,79 @@
 \section{Bekanntes vs. unbekanntes Terrain}
 Man unterscheidet zwischen Algorithmen für:
 \begin{itemize}
-	\item \textbf{bekannte Umgebungen} (auch während der Fahrt ändert sich die Umgebung nicht)
-	\item \textbf{unbekannte Umgebungen}
+	\item \textbf{bekannte Umgebung:} auch während der Fahrt ändert sich die
+		Umgebung nicht
+	\item \textbf{unbekannte Umgebung:} entweder vollständig oder Teilweise
+		unbekannte Umgebung
 \end{itemize}
-\begin{itemize}
-	\item Gebiet \textbf{vollständig bekannt} $\Rightarrow$ Lösung der Suche mittels eines Graphen.
-	\item \textbf{unvollständig oder gar nicht bekanntes Gelände} $\Rightarrow$ Berechnungen erfolgen auf \textbf{lokalen Teilinformationen}
-	\subitem Neue Informationen $\Rightarrow$ \textbf{inkrementelle Anpassung} über Sensoren
-\end{itemize}
+
+Ist das Gebiet \textbf{vollständig bekannt}, lässt sich die Suche mittels eines
+Graphen lösen. Ansonsten erfolgen die Berechnungen auf lokalen
+Teilinformationen von Sensoren mit denen \textbf{inkrementelle Anpassungen}
+vorgenommen werden.
+
 \section{Navigation in unbekanntem Terrain}
 \subsection{Konturverfolgung}
+Eine \textbf{Freiraumfahrt} d.h. eine Fahrt durch ein Gelände, dessen
+Raum möglichst weit und frei von Hindernissen ist, ist nicht immer Zielführend.
+
+Lösung: \textbf{Konturverfolgung}
 \begin{itemize}
-	\item Eine \textbf{Freiraumfahrt} d.h. eine Fahrt durch ein Gelände, dessen Raum möglichst weit und frei von Hindernissen ist $\Rightarrow$ nicht immer Zielführend
-	\item Lösung: \textbf{Konturverfolgung}
-	\subitem Roboter wird nah an einem Objekt (Wand, Hinderniss) entlang bewegt
-	\subitem Es sollte möglichst ein gegebener Abstand $d$ eingehalten werden
+	\item Roboter wird nah an einem Objekt (Wand, Hinderniss) entlang bewegt
+	\item Es sollte möglichst ein gegebener Abstand $d$ eingehalten werden
 \end{itemize}
-\paragraph{Regelung des Abstands d}
-\begin{lstlisting}
-IF (Distance to Wall > d)
-	THEN turn to wall
 
-IF (Distance to Wall < d)
-	THEN turn away from wall
+\begin{lstlisting}[language=bash, caption={Regelung des Abstands $d$}]
+if (Distance to Wall > d) then
+	turn to wall
+fi
 
-IF (Distance to Wall == d)
-	THEN Drive straight ahead
+if (Distance to Wall < d) then
+	turn away from wall
+fi
+
+if (Distance to Wall == d) then
+	Drive straight ahead
+fi
 \end{lstlisting}
-\newpage
-\subsection{Sensorbasierte Planer - Navigation mit Hinderniskontakt}
-\subsubsection{Bug1 Algorithmus}
-Fordert zwei bestimmte Verhalten:
-\begin{itemize}
-	\item bewege dich auf einer geraden Linie
-	\item folge einer Begrenzung in einem bestimmten Abstand
-\end{itemize}
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[scale=0.5]{Resources/PNG/Bug1.PNG}
-		\caption{Bug1 Algorithmus Route}
-		\label{fig:PNG/Bug1.png}
-	\end{center}
-\end{figure}
+
+\pagebreak
+\subsection{Bug1 Algorithmus}
+{
+\begin{wrapfigure}{r}{0.4\textwidth}
+	\vspace{-1cm}
+	\includegraphics[width=0.4\textwidth]{Resources/PNG/Bug1.PNG}
+	\caption{Bug1 Algorithmus Route}
+	\label{fig:PNG/Bug1.png}
+\end{wrapfigure}
 \paragraph{Vorraussetzungen}
 \begin{itemize}
-	\item Roboter benötigt einen Sensor zur Erkennung eines \enquote{Kontakts} mit einem Hindernis
+	\item Bewegung auf einer geraden Linie
+	\item Konturverfolgung
+	\item Roboter benötigt einen Sensor zur Erkennung eines "Kontakts" mit einem
+		Hindernis
 	\item Roboter kann die Distanz zwischen zwei Punkten x und y messen
 	\item der Arbeitsraum ist begrenzt
 \end{itemize}
+
+}
+
 \paragraph{Algorithmus}
-\begin{itemize}
-	\item Roboter folgt Linie zum Ziel bis er beim Punkt $q_1^H$ auf ein Hinderniss trifft
-	\item Roboter umfährt das Hindernis bis er erneut beim gleichen Punkt auf das Hindernis trifft
-	\item Roboter bestimmt den nähesten Punkt (Leavepoint) $q_1^L$ vom Hindernis zum Ziel und fährt diesen Punkt an
-	\item Von diesem Punkt fährt der Roboter geradewegs zum Ziel bis er das Ziel erreicht oder erneut auf ein Hindernis trifft
-\end{itemize}
+\begin{lstlisting}[language=c++, caption={}]
+while ( noch nicht am Ziel ) {
+	try {
+		Folge gerader Linie zum Ziel
+	} catch ( HindernisKontakt kontaktpunkt ) {
+		Umfahre das Hindernis bis wieder bei $kontaktpunkt
+		leavepoint = Punkt mit Lot vom Hindernis zum Ziel
+		Fahre zu $leavepoint
+	}
+}
+\end{lstlisting}
+
 \paragraph{Exception}
-Schneidet die Linie von $q1^L$ zum Ziel das \textbf{aktuelle Hindernis} gibt es keine Lösung
+Schneidet die Linie von $q1^L$ zum Ziel das \textbf{aktuelle Hindernis} gibt
+es keine Lösung
 \begin{figure}[H]
 	\begin{center}
 		\includegraphics[scale=0.4]{Resources/PNG/Exception1.PNG}
@@ -67,72 +83,98 @@ Schneidet die Linie von $q1^L$ zum Ziel das \textbf{aktuelle Hindernis} gibt es 
 		\label{fig:PNG/Exception1.PNG}
 	\end{center}
 \end{figure}
-\subsubsection{Bug2-Algorithmus}
-\textbf{Idee:}
-\begin{itemize}
-	\item Linie vom Start $S$ zum Ziel $T$ konstruieren
-	\item bewegt sich möglichst auf dieser Linie
-	\item Roboter trifft auf Objekt $\Rightarrow$ umfahren in einer bestimmten Richtung bsp. immer rechts herum
-	\item Hindernis wird solange umfahren, bis der Roboter wieder auf einen Punkt auf der Linie $ST$ trifft, der näher zum Ziel liegt als der ursprüngliche Kontaktpunkt mit dem Hindernis
-\end{itemize}
-\textbf{Algorithmus}:
-\begin{lstlisting}
-1. Auf Geraden ST in Richtung T fahren bis:
-	a.) Ziel erreicht wird --> END
-	b.) Hinternis getroffen wird --> Schnittpunt Hj setzen
-		--> Schritt 2
-2. Umfahre das Objekt bis:
-	a.) das Ziel erreicht wird --> END
-	b.) Gerade ST in einem Punkt Q getroffen wird mit Strecke QT kleiner als Strecke HjT
-		QT wird in Richtung T verlassen
-		Q als Leavepount Lj setzen
-		i um 1 erhoehen
-		--> Schritt 1
-	c.) zum letzten Hitpoint Hj zurueckgekehrt wird
-		Algorithmus wird abgebrochen
-		Es gibt keinen Weg zu T
+
+\subsection{Bug2-Algorithmus}
+Schnellere Variante zu Bug1, da Hindernis nicht komplett umrundet wird.
+Eventuell keine mögliche Lösung wie bei Bug1. \textbf{Backtracking} und
+damit Veränderung der Umfahrichtung eines Hindernisses können helfen.
+
+\pagebreak
+
+\begin{lstlisting}[language=c++, caption={Algorthmus ohne Backtracking}]
+/**
+ * Start S
+ * Ziel T
+ * Derzeitige Position P = S
+ * Umfahrrichtung = rechts
+ */
+Konstruiere Strecke ST
+while (nicht bei T) {
+	try {
+		Fahre auf ST
+	} catch (HindernisKontaktPunkt H) {
+		while (P == Schnittpunkt mit ST && len(PT) < len(HT)) {
+			Umfahre das Objekt rechtsherum
+		}
+	}
+}
 \end{lstlisting}
-\begin{itemize}
-	\item Ev. wird kein Weg zum Ziel gefunden
-\end{itemize}
-\begin{itemize}
-	\item Bei Komplexen Hindernissen kann Ziel mit \textbf{Backtracking} gefunden werden
-\end{itemize}
-\subsubsection{Bug3-Algorithmus}
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[scale=0.6]{Resources/PNG/Bug3.png}
-		\caption{}
-		\label{fig:PNG/Bug3.png}
-	\end{center}
-\end{figure}
+
+\subsection{Bug3-Algorithmus}
+Unterschied zu Bug2 ist, dass er nicht der Strecke ST strikt folgt sondern
+jede Möglichkeit nutzt näher ans Ziel T zu kommen. Auch hier Problematik keine
+Lösung zu finden und Verbesserung durch Backtracking möglich.
+
+\begin{lstlisting}[language=c++, caption={Algorthmus ohne Backtracking}]
+/**
+ * Start S
+ * Ziel T
+ * Derzeitige Position P = S
+ * Umfahrrichtung = rechts
+ */
+while (nicht bei T) {
+	try {
+		Fahre zu T
+	} catch (HindernisKontakt) {
+		while (PT nicht frei) {
+			Umfahre das Objekt rechtsherum
+		}
+	}
+}
+\end{lstlisting}
+
 \subsection{Labyrinthe}
-\paragraph{Grundprobleme}
+\subsubsection{Grundprobleme}
 \begin{itemize}
-	\item Es wird davon ausgeangen, dass der Roboter berühren oder \enquote{sehen} kann
+	\item Es wird davon ausgeangen, dass der Roboter berühren oder "sehen" kann
 	\item Zwei grundlegend Hauptprobleme:
-	\subitem Einen \textbf{Weg in ein Labyrinth} finden, um einen bestimmten Gegenstand oder \textbf{Schatz zu erreichen} sowie den \textbf{Rückweg zum Eingang}
-	\subitem \textbf{Flucht aus einem Labyrinth} von einer unbekannten Stelle aus.
-	\item Enger Zusammenhang zwischen Labyrinth und Graphen $\Rightarrow$ Jeder Korridor:= Kante und jede Kreuzung:= Knoten
-	\subitem Bei bekanntem Labyrinthe $\Rightarrow$ Suchproblem auf in Bäumen
+		\begin{itemize}
+			\item Einen \textbf{Weg in ein Labyrinth} finden, um einen bestimmten
+				Gegenstand oder \textbf{Schatz zu erreichen} sowie den \textbf{Rückweg
+				zum Eingang}
+			\item \textbf{Flucht aus einem Labyrinth} von einer unbekannten Stelle
+				aus.
+		\end{itemize}
+	\item Enger Zusammenhang zwischen Labyrinth und Graphen $\Rightarrow$ Jeder
+		Korridor:= Kante und jede Kreuzung:= Knoten
+	\subitem Bei bekanntem Labyrinthe $\Rightarrow$ Suchproblem in Bäumen
 \end{itemize}
-\paragraph{Verlassen eines Labyrinths mit Pledge Algorithmus}
-\textbf{Grundidee}: Vorsichtig geradeaus bis man auf ein Hindernis trifft und dann mit der \enquote{linken} Hand immer an der Wand entlang bis zum Ausgang.\\
-\textbf{Problem}: Enthält das Labyrinth eine Säule, läuft man für immer im Kreis
-\begin{itemize}
-	\item \textbf{Lösung} $\Rightarrow$ man folgt der Wand nur solange, bis man wieder in die alte Richtung schaut.
-\end{itemize}
-\textbf{Allgemeingültige Lösung}: Drehungen beim Abbiegen an den Ecken mitzählen.
-Bei jeder Linksdrehung wird der Umdrehungszähler inkrementiert, bei jeder Rechtsdrehung dekrementiert.
+
+\subsubsection{Verlassen eines Labyrinths mit Pledge Algorithmus}
+\textbf{Grundidee} Vorsichtig geradeaus bis man auf ein Hindernis trifft und
+dann mit der "linken" Hand immer an der Wand entlang bis zum Ausgang.
+
+\textbf{Problem} Enthält das Labyrinth eine Säule, läuft man für immer im
+Kreis
+
+\textbf{Lösung} Man folgt der Wand nur solange, bis man wieder in die alte
+Richtung schaut.
+
+\textbf{Allgemeingültige Lösung} Drehungen beim Abbiegen an den Ecken
+mitzählen. Bei jeder Linksdrehung wird der Umdrehungszähler inkrementiert, bei
+jeder Rechtsdrehung dekrementiert.
 \begin{itemize}
 	\item Bewege den Roboter geradeaus bis eine Wand erreicht ist
 	\item Folge der Wand bis Umdrehungszähler 0 ist
 \end{itemize}
-\paragraph{Verlassen eines Labyrinths mit Ariadenfaden}
-\begin{itemize}
-	\item \textbf{Ziel}: einen Weg zu einem versteckten Ziel im Labyrinth sowie wieder zurück zum Eingang finden ohne dass eine Karte des Labyrinths bekannt ist
-	\item \textbf{Idee}: Wenn man ein Labyrinth betritt Faden ausrollen $\Rightarrow$ zurückverfolgen bringt einen zurück zum Eingang.
-\end{itemize}
+
+\subsubsection{Verlassen eines Labyrinths mit Ariadenfaden}
+\textbf{Ziel}: einen Weg zu einem versteckten Ziel im Labyrinth sowie wieder
+zurück zum Eingang finden ohne dass eine Karte des Labyrinths bekannt ist
+
+\textbf{Idee}: Wenn man ein Labyrinth betritt Faden ausrollen $\Rightarrow$
+zurückverfolgen bringt einen zurück zum Eingang.
+
 \textbf{Vorraussetzungen und grundsätzliches Vorgehen}
 \begin{itemize}
 	\item einer Wand folgen
@@ -143,40 +185,54 @@ Bei jeder Linksdrehung wird der Umdrehungszähler inkrementiert, bei jeder Recht
 	\item Faden am Boden erkennen
 	\item Faden zur nächsten Kreuzung folgen
 \end{itemize}
-\paragraph{Tarry und Tremaux Algorthmus}
+
+\subsubsection{Tarry und Tremaux Algorthmus}
 \begin{itemize}
 	\item Beispiel für klassische Tiefensuche
 	\item Richtung, in der sich das zu suchende Objekt befindet ist unbekannt.
 	\item Graph kann zyklen enthalten
-	\item Es wird ein zyklisch gerichteter Graph durch jede Kante konstruiert, wobei jede Kante nur einmal pro Richtung besucht wird
+	\item Es wird ein zyklisch gerichteter Graph durch jede Kante konstruiert,
+		wobei jede Kante nur einmal pro Richtung besucht wird
 \end{itemize}
+
 \textbf{Algorithmus:}
 \begin{itemize}
 	\item Starte willkürlich an einem Knoten
-	\item Folge einem möglichen Pfad, markiere die Kante, in welcher Richtung sie betreten worden ist
-	\item Sind alle Kanten schon betreten, eine auswählen, die bis jetzt nur in die Gegenrichtung betreten wurde.
-	\item Trifft man auf eine Sackgasse oder einen schon besuchten Gang, zurück zur letzten Kreuzung
-	\item Es darf kein Pfad betreten werden, der schon in beide Richtungen besucht wurde.
+	\item Folge einem möglichen Pfad, markiere die Kante, in welcher Richtung
+		sie betreten worden ist
+	\item Sind alle Kanten schon betreten, eine auswählen, die bis jetzt nur in
+		die Gegenrichtung betreten wurde.
+	\item Trifft man auf eine Sackgasse oder einen schon besuchten Gang, zurück
+		zur letzten Kreuzung
+	\item Es darf kein Pfad betreten werden, der schon in beide Richtungen
+		besucht wurde.
 	\item Algorithmus ist beendet, wenn der Startpunkt erreicht wird.
 \end{itemize}
+
 \section{Pfadplanung für mobile Roboter in bekanntem Terrain}
-\subsection{Bewegungsplan für mobile Roboter}
 Ziel der Navigation ist es, ein Fahrzeug in der Umwelt zu bewegen.
 Dies beinhaltet drei Unteraufgaben:
-\paragraph{Globale Pfadplanung}
-\begin{itemize}
-	\item \textbf{Vorraussetzung}: es gibt eine Karte
-	\item suche eines Pfades von einem Start- zu einem Zielpunkt in vorhandenem Umgebungsmodell
-	\item evtl. auch Suche nach Pfad mit geringsten Kosten
-	\item Kompletter Pfad beschrieben durch Menge von Punkten
-\end{itemize}
-\paragraph{Lokale Pfadplanung} berücksichtigt Fahrzeug-Dimension und kinematische Einschränkungen
-\paragraph{Path Control} generiert geeignet Steuerbefehle, um den vorberechneten Pfad zu folgen
+\begin{description}
+	\item[Global Pfadplanung]
+	\begin{itemize}
+		\item \textbf{Vorraussetzung}: es gibt eine Karte
+		\item suche eines Pfades von einem Start- zu einem Zielpunkt in vorhandenem Umgebungsmodell
+		\item evtl. auch Suche nach Pfad mit geringsten Kosten
+		\item Kompletter Pfad beschrieben durch Menge von Punkten
+	\end{itemize}
+	\item[Lokale Pfadplanung] berücksichtigt Fahrzeug-Dimension und kinematische
+		Einschränkungen
+	\item[Path Control] generiert geeignet Steuerbefehle, um den vorberechneten
+		Pfad zu folgen
+\end{description}
+
 \subsection{Konfigurationsraum}
 \paragraph{Herleitung}
 \begin{itemize}
-	\item Abmesungen, Form, Bewegungsmöglichkeiten des Roboters werden für die Erstellung des Konfigurationsraums benötigt
-	\item Konfiguration $q$ eines Roboters beschreibt Lage und Ausrichtung im Bezugssystem des Umgebungsmodells
+	\item Abmesungen, Form, Bewegungsmöglichkeiten des Roboters werden für die
+		Erstellung des Konfigurationsraums benötigt
+	\item Konfiguration $q$ eines Roboters beschreibt Lage und Ausrichtung im
+		Bezugssystem des Umgebungsmodells
 	\item Im zweidimensionalen Raum kann Position in $x,y$-Ebene und Orientierung ausgedrückt werden
 	\item Konstruktionsbedingt sind einige Konfigurationen für den Roboter in seiner Umgebung nicht zulässig
 	\item Problem; einfachere Darstellung:
