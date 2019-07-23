@@ -398,7 +398,7 @@ Nachteile:
 \end{wrapfigure}
 Der reduzierte Sichtgraph besteht nur aus unterstützenden und trennenden Kanten.
 \begin{description}
-	\item[unterstützende Kanten:] Tangente zu zwei Hindernissen, so dass die
+	\item[unterstützende Kanten:] Tangente zu zwei Hindernis\-sen, so dass die
 		Hindernisse auf derselben Seite der Linie liegen
 	\item[trennende Kanten:] Tangente zu zwei Hindernissen so, dass die Hindernisse
 		auf gegenüberliegenden Seiten der Tangente liegen.
@@ -417,6 +417,7 @@ $\Rightarrow$ \textbf{Effizienter:} Plane Sweep Algorithmus $O(n^2 log n)$
 \begin{wrapfigure}{r}{0.4\textwidth}
 	\includegraphics[width=0.4\textwidth]{Resources/PNG/sweepLineAlgorithmus}
 \end{wrapfigure}
+\ActivateWarningFilters[wrapfiglisting]
 \begin{lstlisting}[language=c, caption={Sweep Line Algorithmus}]
 /**
  * Input: Set of vertices (whose edges do not
@@ -447,6 +448,7 @@ for (angle : Angles) {
 	}
 }
 \end{lstlisting}
+\DeactivateWarningFilters[wrapfiglisting]
 
 }
 

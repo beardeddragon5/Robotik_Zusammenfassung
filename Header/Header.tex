@@ -154,3 +154,9 @@
 }
 
 \newcommand{\colvec}[1]{\begin{pmatrix}#1\end{pmatrix}}
+
+\usepackage{silence}
+\WarningFilter[wrapfiglisting]{wrapfig}{wrapfigure used inside a conflicting environment}
+\WarningFilter[wrapfigforcefloat]{wrapfig}{Stationary wrapfigure forced to float}
+
+\ActivateWarningFilters[wrapfigforcefloat]

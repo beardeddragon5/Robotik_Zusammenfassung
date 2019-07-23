@@ -6,7 +6,7 @@
 	\item[Sensordaten] Roboter empfängt regelmäßig Sensordaten, jedoch mit
 		Unsicherheit behaftet.
 	\item[Steuerdaten] Roboter führt regelmäßig Bewegungen mit Steuerdaten $u_k$
-		durch, aber diese entsprechen nicht exakt den vorgegebenen Steuerdaten.
+		durch, aber diese entspre\-chen nicht exakt den vorgegebenen Steuerdaten.
 	\item[Position und Umgebungsmodell] Position schätzt seine globale Position
 		aufgrund der Sensor- und Steuerdaten in seiner Umgebungskarte, jedoch auch
 		mit Unsicherheit behaftet
@@ -37,7 +37,7 @@ Rauschen bei  Sensordaten führt zu Abweichungen des Idealwerts $\Rightarrow$
 schwerwiegende Fehler.
 
 Im Gegensatz zu Occupancy Grids nutzen Evidence Grids keine Binärwerte um die
-Belegung darzustellen. Sie sammeln Beweismittel und geben die
+Belegung darzu\-stellen. Sie sammeln Beweismittel und geben die
 Wahrscheinlichkeit für die Belegung jeder Zelle an:
 $$
 	Z(x,y) = p(Z_{x,y,belegt} | Sensorwert) / p(Z_{x,y,frei} | Sensorwert)
@@ -163,21 +163,20 @@ zusätzliches Parameter für die Wahrscheinlichkeit hinzugefügt.
 
 }
 
-{
-\begin{wrapfigure}{r}{0.4\textwidth}
-	\includegraphics[width=0.4\textwidth]{Resources/PNG/MonteCarlo.PNG}
-\end{wrapfigure}
 \section{Monte Carlo Lokalisierung}
 Die Monte Carlo Lokalisierung ist ein Stichprobenbasiertes
 Approximationsverfahren für die Markov Lokalisierung. Der Bayes Filter wird
 auch hier benutzt, unterschiedet sich jedoch von gridbasierten
 Lokalisationsverfahren anhand der Betrachtung und Verarbeitung.
 
-\paragraph{Praxis:} Viele der Gitterzellen besitzen Wahrscheinlichkeit von 0.
+{
+\begin{wrapfigure}{r}{0.4\textwidth}
+	\includegraphics[width=0.4\textwidth]{Resources/PNG/MonteCarlo.PNG}
+\end{wrapfigure}
+
+\paragraph{Praxis:} Viele der Gitterzellen besitzen Wahrscheinlich\-keit von 0.
 Diese Gitterzellen miteinzubeziehen ist ineffizient. Diese können vernachlässigt
 werden.
-
-}
 
 \paragraph{Funktionsweise}
 \begin{itemize}
@@ -193,6 +192,8 @@ werden.
 	\item Es erfolgt eine erneute Gewichtung mit einem neuen Sensorwert
 	\item Anschließend ein erneuetes Resamplung und Integrierung des Steuerbefehls
 \end{itemize}
+
+}
 
 \paragraph{Vorteil}
 \begin{itemize}
@@ -361,7 +362,7 @@ modelliert
 		reduziert die Unsicherheit bei der Positionsbestimmung und damit auch die
 		Unsicherheit über die zugehörigen früheren Roboterpositionen
 \end{itemize}
-\begin{minipage}[]{0.5\textwidth}
+\begin{minipage}[]{0.4\textwidth}
 \begin{figure}[H]
 	\begin{center}
 		\includegraphics[scale=0.32]{Resources/PNG/LandmarkenBeispiel.PNG}
@@ -370,7 +371,7 @@ modelliert
 	\end{center}
 \end{figure}
 \end{minipage}
-\begin{minipage}[]{0.5\textwidth}
+\begin{minipage}[]{0.4\textwidth}
 \begin{figure}[H]
 	\begin{center}
 		\includegraphics[scale=0.3]{Resources/PNG/LandmarkenBeispiel2.PNG}
@@ -430,7 +431,7 @@ Modell von Variablen und deren Abhängigkeiten als dynamisches Bayes-Netzwerk.
 		\subitem in die \textbf{Lokalisation} (Wissen über den vom Roboter
 			zurückgelegten weg  $s_1, ... s_t$)
 		\subitem und einer Sammlung von einzelnen \textbf{Landmarken-schätzungen}
-			$z_k$, die von der geschätzter Roboterpose abhängen
+			$z_k$, die von der geschätz\-ter Roboterpose abhängen
 	\item Zeitkomplexität von \textbf{FastSLAM} ist $O(f M)$
 		\subitem $f$ konstanter Faktor
 		\subitem $M$ Anzahl der Landmarken
