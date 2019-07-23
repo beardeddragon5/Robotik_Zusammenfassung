@@ -1,7 +1,7 @@
 \chapter{Lego Mindstorms Code}
 \vspace{-40px}
 \section{SubSumptionMain}
-\begin{lstlisting}[caption={}, captionpos=, label={lst:}, language=java]
+\begin{lstlisting}[caption={}, captionpos=, language=java]
 public class SubsumptionMain {
     public static void main(final String[] args) throws InterruptedException {
         final Effector[] effectors = {
@@ -33,7 +33,7 @@ public class SubsumptionMain {
 \end{lstlisting}
 
 \section{Arbitrator}
-\begin{lstlisting}[caption={}, captionpos=, label={lst:}, language=java]
+\begin{lstlisting}[caption={}, captionpos=, language=java]
 public class Arbitrator {
     private final int MAX_PRIO = 10;
     private final Wish[] wishes = new Wish[MAX_PRIO];
@@ -42,8 +42,8 @@ public class Arbitrator {
     Arbitrator(Effector[] effectors) { this.effectors = effectors; }
 
     public synchronized void accept(final Wish wish, final int priority) {
-        if (wish == Wish.DIE) { 
-			justDieAlready(); 
+        if (wish == Wish.DIE) {
+			justDieAlready();
 		} else if (wish == Wish.NOTHING) {
 			wishes[priority] = null;
 		} else {
@@ -68,14 +68,14 @@ public class Arbitrator {
 \end{lstlisting}
 
 \section{Wishes}
-\begin{lstlisting}[caption={}, captionpos=, label={lst:}, language=java]
+\begin{lstlisting}[caption={}, captionpos=, language=java]
 public enum Wish {
 	FORWARD, STOP, LEDGREEN, LEDOFF, TURN_LEFT, STEER_LEFT, STEER_RIGHT, NOTHING, DIE
 }
 \end{lstlisting}
 
 \section{Behaviors}
-\begin{lstlisting}[caption={}, captionpos=, label={lst:}, language=java]
+\begin{lstlisting}[caption={}, captionpos=, language=java]
 public abstract class Behavior {
 	private final Arbitrator arbitrator;
 	private final int priority;
@@ -105,7 +105,7 @@ public abstract class Behavior {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[caption={}, captionpos=, label={lst:}, language=java]
+\begin{lstlisting}[caption={}, captionpos=, language=java]
 public class Go extends Behavior {
 
 	Go(Arbitrator arbitrator, int priority) {
@@ -122,7 +122,7 @@ public class Go extends Behavior {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[caption={}, captionpos=, label={lst:}, language=java]
+\begin{lstlisting}[caption={}, captionpos=, language=java]
 public class Killer extends Behavior {
 
 	public Killer(final Arbitrator arbitrator, final int priority) {
@@ -138,7 +138,7 @@ public class Killer extends Behavior {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[caption={}, captionpos=, label={lst:}, language=java]
+\begin{lstlisting}[caption={}, captionpos=, language=java]
 class SteerLeft extends Behavior {
 
     SteerLeft(Arbitrator arbitrator, int priority) {
@@ -154,7 +154,7 @@ class SteerLeft extends Behavior {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[caption={}, captionpos=, label={lst:}, language=java]
+\begin{lstlisting}[caption={}, captionpos=, language=java]
 class Stop extends Behavior {
 
     Stop(final Arbitrator arbitrator, final int priority) {
@@ -173,7 +173,7 @@ class Stop extends Behavior {
 \end{lstlisting}
 
 \section{Effectors}
-\begin{lstlisting}[caption={}, captionpos=, label={lst:}, language=java]
+\begin{lstlisting}[caption={}, captionpos=, language=java]
 public class Chassis extends Effector {
     private static final double STEERING_FACTOR = 0.5;
     private static final int STEERING_TIME = 40;
@@ -249,7 +249,7 @@ public class Chassis extends Effector {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[caption={}, captionpos=, label={lst:}, language=java]
+\begin{lstlisting}[caption={}, captionpos=, language=java]
 class Lamp extends Effector
 {
 	@Override
@@ -272,7 +272,7 @@ class Lamp extends Effector
 
 \section{Sensors}
 
-\begin{lstlisting}[caption={}, captionpos=, label={lst:}, language=java]
+\begin{lstlisting}[caption={}, captionpos=, language=java]
 public abstract class SubSensor extends Thread {
 
 	public static final String BUTTON_SENSOR = "ButtonSensor";
@@ -297,7 +297,7 @@ public abstract class SubSensor extends Thread {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[caption={}, captionpos=, label={lst:}, language=java]
+\begin{lstlisting}[caption={}, captionpos=, language=java]
 public class ButtonSensor extends SubSensor {
 
     public ButtonSensor(final Behavior[] behaviors) {
@@ -313,7 +313,7 @@ public class ButtonSensor extends SubSensor {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[caption={}, captionpos=, label={lst:}, language=java]
+\begin{lstlisting}[caption={}, captionpos=, language=java]
 public class CollisionSensor extends SubSensor {
     public static final int COLLISION = 1;
     public static final int NO_COLLISION = 0;
@@ -355,7 +355,7 @@ public class CollisionSensor extends SubSensor {
     }
 \end{lstlisting}
 
-\begin{lstlisting}[caption={}, captionpos=, label={lst:}, language=java]
+\begin{lstlisting}[caption={}, captionpos=, language=java]
 public class UltrasoundSensor extends SubSensor {
     private final float[] floats;
     public static final int TOO_CLOSE = 0;
@@ -398,6 +398,3 @@ public class UltrasoundSensor extends SubSensor {
     }
 }
 \end{lstlisting}
-
-
-

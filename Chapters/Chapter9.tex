@@ -6,28 +6,33 @@
 	\item Steuerung in einem \textbf{Steuerschrank} mit \textbf{Bedienerkonsole}
 	\item \textbf{Handsteuergerät}
 \end{itemize}
+
 \subsection{Einsatz}
 \begin{itemize}
 	\item In wohldefinerter Umgebung, definierte Hindernisse, bekannte Umwelt
 	\item Größtes Einsatzgebiet in der Automobilindustrie und deren Zulieferern (\textit{Schweißen, Lackieren, Beschichten ...})
 \end{itemize}
+
 \subsection{Trends}
 \begin{itemize}
 	\item Industrie 4.0, KI, IoT
 	\item Human-Robot collaboration
 	\item Mobile Roboter und einfachere Bedienung
 \end{itemize}
+
 \section{Bauform und Komponenten}
 \paragraph{Roboterarm}
 \begin{itemize}
 	\item Armelemente bzw. Glieder die über Bewegungsachsen miteinander verbunden sind.
 	\item Ausgleichszylinder $\Rightarrow$ Motoren werden nicht überlastet, geringere Kräfte sind nötig
 \end{itemize}
+
 \paragraph{Endeffektor, Hand}
 \begin{itemize}
 	\item Das Arbeitsorgan $\Rightarrow$ Werkzeug
 	\item Üblicherweise wird die Werkzeugspitze \textit{\textbf{Tool Center Point}(TCP)} genannt
 \end{itemize}
+
 \paragraph{Fahrzeug}
 \begin{itemize}
 	\item optional
@@ -35,6 +40,7 @@
 	\item ein bis drei Freiheitsgrade
 	\item Bsp.: Verfahrschlitten
 \end{itemize}
+
 \section{Freiheitsgrade}
 \subsection{Definition}
 Der Freiheitsgrad (DOF) bezeichnet in der Physik die Anzahl der frei wählbaren, voneinander unabhängigen Parameter eines physikalischen Systems, die dessen Zustand eindeutig kennzeichnen.
@@ -43,23 +49,25 @@ Der Freiheitsgrad (DOF) bezeichnet in der Physik die Anzahl der frei wählbaren,
 	\item Anzahl der Freiheitsgrade drückt die translatorischen und rotatorischen Bewegungsmöglichkeiten eines Körpers aus
 	\item Anzahl der Gelenkachsen $\neq$ Anzahl der Freiheitsgrade
 \end{itemize}
+
 \section{Bewegungsachsen}
 \subsection{Rotatorisch}
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[scale=0.6]{Resources/PNG/Rotatorisch.PNG}
-		\caption{Rotatorische Achse}
-		\label{fig:PNG/Rotatorisch.PNG}
-	\end{center}
-\end{figure}
 \begin{itemize}
 	\item Für Drehbewegungen
 	\item Freiheitsgrad: 1
 \end{itemize}
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.1]{Resources/PNG/Rotatorisch.PNG}
+		\caption{Rotatorische Achse}
+		\label{fig:PNG/Rotatorisch.PNG}
+	\end{center}
+\end{figure}
+
 \subsection{Translatorisch}
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics[scale=0.6]{Resources/PNG/Translatorisch.PNG}
+		\includegraphics[scale=0.2]{Resources/PNG/Translatorisch.PNG}
 		\caption{Translatorische Achse}
 		\label{fig:PNG/Translatorisch.PNG}
 	\end{center}
@@ -230,19 +238,22 @@ Gegenteil eines Aktors.
 	\item Batteriespannung
 \end{itemize}
 %TODO Seite 36/99
+
 \subsection{Externe Sensoren}
 Erfassen von Eigenschaften aus der Umwelt des Roboters.
+
 \paragraph{Passive Sensoren}
-\begin{itemize}
-	\item Keine störenden Einflüsse in der Umwelt, dafür aber ungenau und umgebungsabhängig
-\end{itemize}
+Keine störenden Einflüsse in der Umwelt, dafür aber ungenau und
+umgebungsabhängig
+
 \paragraph{Aktive Sensoren}
-\begin{itemize}
-	\item Genaue Messungen unter wohldefinierten Bedingungen dafür aber evtl. störende Einflüsse
-\end{itemize}
+Genaue Messungen unter wohldefinierten Bedingungen dafür aber evtl. störende
+Einflüsse
+
 \section{Kinematik}
 \paragraph{Definition}
 Die Kinematik beschreibt nur wie sich ein Körper bewegt und wird daher auch als Bewegungsgeometrie bezeichnet.
+
 \subsection{Kinematikmodul}
 \begin{itemize}
 	\item Das Kinematikmodul ist für die Positionierung der Gelenke
